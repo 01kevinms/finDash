@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinDash — Categorias</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="categorias">
+  <div class="app-layout" id="appLayout">
+    <div class="main-content" id="mainContent">
+      <main class="page-content">
+
+        <div class="page-header">
+          <div class="page-header-left">
+            <h2>◈ Categorias</h2>
+            <p>Organize suas movimentações em categorias</p>
+          </div>
+          <button class="btn btn-primary" id="btnNovaCategoria">＋ Nova Categoria</button>
+        </div>
+
+        <div class="filters-bar" style="margin-bottom:24px">
+          <span class="filter-label">🔍</span>
+          <input type="text" id="searchCategoria" class="filter-input filter-search" placeholder="Buscar categoria…">
+          <select id="filterCatTipo" class="filter-select">
+            <option value="">Todos os tipos</option>
+            <option value="receita">Receita</option>
+            <option value="despesa">Despesa</option>
+            <option value="ambos">Ambos</option>
+          </select>
+        </div>
+
+        <div class="cats-grid" id="categoriasGrid">
+          <div class="empty-state">Carregando…</div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Categoria -->
+  <div class="modal" id="modalCategoria">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title" id="modalCatTitle">Nova Categoria</span>
+        <button class="modal-close" onclick="Utils.closeModal('modalCategoria')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="formCategoria" novalidate>
+          <div class="modal-row">
+            <div class="modal-form-group">
+              <label class="modal-label" for="catNome">Nome *</label>
+              <input class="modal-input" type="text" id="catNome" placeholder="Ex: Alimentação"
+                oninput="updateCatPreview()" required>
+            </div>
+            <div class="modal-form-group">
+              <label class="modal-label" for="catTipo">Tipo *</label>
+              <select class="modal-select" id="catTipo" required>
+                <option value="">Selecione</option>
+                <option value="receita">Receita</option>
+                <option value="despesa">Despesa</option>
+                <option value="ambos">Ambos</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label">Ícone</label>
+            <input type="hidden" id="catIcone" value="📦">
+            <div id="emojiGrid"></div>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label">Cor</label>
+            <input type="hidden" id="catCor" value="#64748b">
+            <div id="colorGrid"></div>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label">Pré-visualização</label>
+            <div id="catPreview"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="btnCancelarCategoria">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar Categoria</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/categorias.js"></script>
+</body>
+</html>

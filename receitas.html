@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinDash — Receitas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="receitas">
+  <div class="app-layout" id="appLayout">
+    <div class="main-content" id="mainContent">
+      <main class="page-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="page-header-left">
+            <h2>📈 Receitas</h2>
+            <p>Gerencie todas as suas entradas financeiras</p>
+          </div>
+          <button class="btn btn-success" id="btnNovaReceita">＋ Nova Receita</button>
+        </div>
+
+        <!-- KPI -->
+        <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom:20px">
+          <div class="kpi-card" style="--kpi-color:var(--green);--kpi-bg:var(--green-dim)">
+            <div class="kpi-label">Total de Receitas</div>
+            <div class="kpi-value text-success" id="totalReceitas">—</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--accent);--kpi-bg:var(--accent-dim)">
+            <div class="kpi-label">Registros</div>
+            <div class="kpi-value" id="countReceitas">—</div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+          <span class="filter-label">🔍</span>
+          <input type="text" id="searchReceita" class="filter-input filter-search" placeholder="Buscar por descrição…">
+          <select id="filterStatus" class="filter-select">
+            <option value="">Todos os status</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="pendente">Pendente</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+          <input type="date" id="filterDateStart" class="filter-input" title="Data inicial">
+          <span class="filter-label">até</span>
+          <input type="date" id="filterDateEnd" class="filter-input" title="Data final">
+          <button class="btn btn-ghost" id="btnLimparFiltros" style="padding:7px 12px;font-size:12px">✕ Limpar</button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th>Categoria</th>
+                  <th>Valor</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaReceitas">
+                <tr><td colspan="6" class="empty-row">Carregando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Nova/Editar Receita -->
+  <div class="modal" id="modalReceita">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title" id="modalTitle">Nova Receita</span>
+        <button class="modal-close" onclick="Utils.closeModal('modalReceita')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="formReceita" novalidate>
+          <div class="modal-form-group">
+            <label class="modal-label" for="receitaDescricao">Descrição *</label>
+            <input class="modal-input" type="text" id="receitaDescricao" placeholder="Ex: Salário de Maio" required>
+          </div>
+          <div class="modal-row">
+            <div class="modal-form-group">
+              <label class="modal-label" for="receitaValor">Valor (R$) *</label>
+              <input class="modal-input" type="number" id="receitaValor" placeholder="0,00" min="0.01" step="0.01" required>
+            </div>
+            <div class="modal-form-group">
+              <label class="modal-label" for="receitaData">Data *</label>
+              <input class="modal-input" type="date" id="receitaData" required>
+            </div>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="receitaCategoria">Categoria *</label>
+            <select class="modal-select" id="receitaCategoria" required>
+              <option value="">Selecione a categoria</option>
+            </select>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="receitaStatus">Status</label>
+            <select class="modal-select" id="receitaStatus">
+              <option value="confirmado">Confirmado</option>
+              <option value="pendente">Pendente</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="btnCancelarReceita">Cancelar</button>
+            <button type="submit" class="btn btn-success">Salvar Receita</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/receitas.js"></script>
+</body>
+</html>

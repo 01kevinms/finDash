@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinDash — Relatórios</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="relatorios">
+  <div class="app-layout" id="appLayout">
+    <div class="main-content" id="mainContent">
+      <main class="page-content">
+
+        <div class="page-header">
+          <div class="page-header-left">
+            <h2>◎ Relatórios</h2>
+            <p>Análise financeira detalhada por período</p>
+          </div>
+          <button class="btn btn-ghost" id="btnExportar">⬇ Exportar CSV</button>
+        </div>
+
+        <!-- Period selector -->
+        <div class="period-bar">
+          <span class="filter-label">📅 Período:</span>
+          <input type="date" id="relStart" class="filter-input">
+          <span class="filter-label">até</span>
+          <input type="date" id="relEnd" class="filter-input">
+          <button class="btn btn-primary" id="btnGerarRelatorio" style="padding:8px 18px;font-size:13px">Gerar Relatório</button>
+          <div class="period-presets">
+            <button class="btn-period active" data-period="mes">Mês</button>
+            <button class="btn-period" data-period="tri">Trimestre</button>
+            <button class="btn-period" data-period="ano">Ano</button>
+            <button class="btn-period" data-period="todos">Todos</button>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="rel-kpi-grid">
+          <div class="rel-kpi-card">
+            <div class="rel-kpi-label">Saldo do Período</div>
+            <div class="rel-kpi-value" id="relSaldo">—</div>
+          </div>
+          <div class="rel-kpi-card">
+            <div class="rel-kpi-label">Receitas</div>
+            <div class="rel-kpi-value text-success" id="relReceitas">—</div>
+          </div>
+          <div class="rel-kpi-card">
+            <div class="rel-kpi-label">Despesas</div>
+            <div class="rel-kpi-value text-danger" id="relDespesas">—</div>
+          </div>
+          <div class="rel-kpi-card">
+            <div class="rel-kpi-label">Transações</div>
+            <div class="rel-kpi-value" id="relTxCount">—</div>
+          </div>
+          <div class="rel-kpi-card">
+            <div class="rel-kpi-label">Taxa de Poupança</div>
+            <div class="rel-kpi-value text-accent" id="relSavingsRate">—</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-grid">
+          <div class="chart-card chart-full">
+            <div class="chart-card-title">📈 Evolução de Receitas × Despesas</div>
+            <canvas id="chartRelLine" class="tall"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">🍩 Receitas por Categoria</div>
+            <canvas id="chartRelDonut" class="tall"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">📊 Despesas por Categoria</div>
+            <canvas id="chartRelBar"></canvas>
+          </div>
+        </div>
+
+        <!-- Gauge + Tabelas -->
+        <div class="chart-grid" style="grid-template-columns:1fr 2fr">
+          <div class="chart-card" style="display:flex;flex-direction:column;align-items:center;gap:10px;justify-content:center">
+            <div class="chart-card-title">💡 Indicador de Poupança</div>
+            <canvas id="chartGauge" style="height:140px !important"></canvas>
+            <p style="font-size:12px;color:var(--text-3);text-align:center">% da renda economizada no período</p>
+          </div>
+          <div class="table-card" style="margin-bottom:0">
+            <div class="table-header">
+              <span class="table-title">📅 Resumo Mensal</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Mês</th><th>Receitas</th><th>Despesas</th><th>Saldo</th></tr>
+                </thead>
+                <tbody id="tabelaMensal">
+                  <tr><td colspan="4" class="empty-row">Sem dados.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-header">
+            <span class="table-title">🏷 Gastos por Categoria</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Categoria</th><th>Total</th><th>%</th><th>Proporção</th></tr>
+              </thead>
+              <tbody id="tabelaCategorias">
+                <tr><td colspan="4" class="empty-row">Sem dados.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/relatorios.js"></script>
+</body>
+</html>

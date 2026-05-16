@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinDash — Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="dashboard">
+  <div class="app-layout" id="appLayout">
+    <div class="main-content" id="mainContent">
+      <main class="page-content">
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card" style="--kpi-color:var(--accent);--kpi-bg:var(--accent-dim)">
+            <div class="kpi-header">
+              <div class="kpi-label">Saldo Atual</div>
+              <div class="kpi-icon">💰</div>
+            </div>
+            <div class="kpi-value" id="kpiSaldo">—</div>
+            <div class="kpi-sub">Receitas − Despesas</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--green);--kpi-bg:var(--green-dim)">
+            <div class="kpi-header">
+              <div class="kpi-label">Total Receitas</div>
+              <div class="kpi-icon">📈</div>
+            </div>
+            <div class="kpi-value text-success" id="kpiReceitas">—</div>
+            <div class="kpi-sub">Todas as entradas</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--red);--kpi-bg:var(--red-dim)">
+            <div class="kpi-header">
+              <div class="kpi-label">Total Despesas</div>
+              <div class="kpi-icon">📉</div>
+            </div>
+            <div class="kpi-value text-danger" id="kpiDespesas">—</div>
+            <div class="kpi-sub">Todas as saídas</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--purple);--kpi-bg:rgba(167,139,250,0.1)">
+            <div class="kpi-header">
+              <div class="kpi-label">Movimentações</div>
+              <div class="kpi-icon">📋</div>
+            </div>
+            <div class="kpi-value" id="kpiTransacoes">—</div>
+            <div class="kpi-sub">Total de registros</div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-card-title">📊 Receitas × Despesas — Últimos 6 Meses</div>
+            <canvas id="chartMonthly"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">🍩 Despesas por Categoria</div>
+            <canvas id="chartCategories" class="tall"></canvas>
+          </div>
+        </div>
+
+        <!-- Health + Last Transactions -->
+        <div class="summary-row">
+          <div class="table-card" style="margin-bottom:0">
+            <div class="table-header">
+              <span class="table-title">⏱ Últimas Movimentações</span>
+              <a href="receitas.html" class="btn btn-ghost" style="font-size:12px;padding:6px 12px">Ver todas →</a>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Valor</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="lastTransactions">
+                  <tr><td colspan="5" class="empty-row">Carregando…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="chart-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+            <div class="chart-card-title" style="align-self:flex-start">❤️ Saúde Financeira</div>
+            <canvas id="chartGauge" style="height:130px !important"></canvas>
+            <div class="health-bar">
+              <div class="health-score" id="healthScore">—</div>
+              <div class="health-label">% do saldo sobre receitas<br><small style="color:var(--text-4)">Meta: &gt;30%</small></div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

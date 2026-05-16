@@ -1,0 +1,114 @@
+{
+  "users": [
+    {
+      "id": "usr001",
+      "username": "admin",
+      "password": "admin",
+      "name": "Administrador",
+      "role": "admin",
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat001",
+      "name": "Salário",
+      "type": "receita",
+      "color": "#10b981",
+      "icon": "💼",
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat002",
+      "name": "Freelance",
+      "type": "receita",
+      "color": "#6366f1",
+      "icon": "💻",
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat003",
+      "name": "Investimentos",
+      "type": "receita",
+      "color": "#f59e0b",
+      "icon": "📈",
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat004",
+      "name": "Aluguéis Recebidos",
+      "type": "receita",
+      "color": "#06b6d4",
+      "icon": "🏢",
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat05",
+      "name": "Outros",
+      "type": "ambos",
+      "color": "#64748b",
+      "icon": "📦",
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx001",
+      "description": "Salário Janeiro",
+      "value": 5800,
+      "category": "cat001",
+      "type": "receita",
+      "date": "2025-01-05",
+      "status": "confirmado",
+      "createdAt": "2025-01-05T08:00:00.000Z"
+    },
+    {
+      "id": "tx002",
+      "description": "Aluguel Janeiro",
+      "value": 1500,
+      "category": "cat008",
+      "type": "despesa",
+      "date": "2025-01-05",
+      "status": "confirmado",
+      "createdAt": "2025-01-05T09:00:00.000Z"
+    },
+    {
+      "id": "tx003",
+      "description": "Supermercado Semana 1",
+      "value": 320.5,
+      "category": "cat006",
+      "type": "despesa",
+      "date": "2025-01-07",
+      "status": "confirmado",
+      "createdAt": "2025-01-07T10:00:00.000Z"
+    },
+    {
+      "id": "tx004",
+      "description": "Conta de Luz",
+      "value": 145.8,
+      "category": "cat008",
+      "type": "despesa",
+      "date": "2025-01-10",
+      "status": "confirmado",
+      "createdAt": "2025-01-10T10:00:00.000Z"
+    },
+    {
+      "id": "tx005",
+      "description": "Internet Fibra",
+      "value": 120,
+      "category": "cat008",
+      "type": "despesa",
+      "date": "2025-01-10",
+      "status": "confirmado",
+      "createdAt": "2025-01-10T11:00:00.000Z"
+    }
+  ],
+  "settings": {
+    "currency": "BRL",
+    "locale": "pt-BR",
+    "theme": "dark",
+    "monthStart": 1,
+    "version": "1.0.0",
+    "lastUpdated": "2026-05-16T00:00:00.000Z"
+  }
+}

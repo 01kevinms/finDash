@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinDash — Despesas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="despesas">
+  <div class="app-layout" id="appLayout">
+    <div class="main-content" id="mainContent">
+      <main class="page-content">
+
+        <div class="page-header">
+          <div class="page-header-left">
+            <h2>📉 Despesas</h2>
+            <p>Controle todos os seus gastos</p>
+          </div>
+          <button class="btn btn-danger" id="btnNovaDespesa">＋ Nova Despesa</button>
+        </div>
+
+        <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom:20px">
+          <div class="kpi-card" style="--kpi-color:var(--red);--kpi-bg:var(--red-dim)">
+            <div class="kpi-label">Total de Despesas</div>
+            <div class="kpi-value text-danger" id="totalDespesas">—</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--accent);--kpi-bg:var(--accent-dim)">
+            <div class="kpi-label">Registros</div>
+            <div class="kpi-value" id="countDespesas">—</div>
+          </div>
+        </div>
+
+        <div class="filters-bar">
+          <span class="filter-label">🔍</span>
+          <input type="text" id="searchDespesa" class="filter-input filter-search" placeholder="Buscar por descrição…">
+          <select id="filterDespesaStatus" class="filter-select">
+            <option value="">Todos os status</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="pendente">Pendente</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+          <select id="filterDespesaCat" class="filter-select">
+            <option value="">Todas as categorias</option>
+          </select>
+          <input type="date" id="filterDespesaDateStart" class="filter-input" title="Data inicial">
+          <span class="filter-label">até</span>
+          <input type="date" id="filterDespesaDateEnd" class="filter-input" title="Data final">
+          <button class="btn btn-ghost" id="btnLimparFiltrosDespesa" style="padding:7px 12px;font-size:12px">✕ Limpar</button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th>Categoria</th>
+                  <th>Valor</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaDespesas">
+                <tr><td colspan="6" class="empty-row">Carregando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modalDespesa">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title" id="modalDespesaTitle">Nova Despesa</span>
+        <button class="modal-close" onclick="Utils.closeModal('modalDespesa')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="formDespesa" novalidate>
+          <div class="modal-form-group">
+            <label class="modal-label" for="despesaDescricao">Descrição *</label>
+            <input class="modal-input" type="text" id="despesaDescricao" placeholder="Ex: Conta de Luz" required>
+          </div>
+          <div class="modal-row">
+            <div class="modal-form-group">
+              <label class="modal-label" for="despesaValor">Valor (R$) *</label>
+              <input class="modal-input" type="number" id="despesaValor" placeholder="0,00" min="0.01" step="0.01" required>
+            </div>
+            <div class="modal-form-group">
+              <label class="modal-label" for="despesaData">Data *</label>
+              <input class="modal-input" type="date" id="despesaData" required>
+            </div>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="despesaCategoria">Categoria *</label>
+            <select class="modal-select" id="despesaCategoria" required>
+              <option value="">Selecione a categoria</option>
+            </select>
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-label" for="despesaStatus">Status</label>
+            <select class="modal-select" id="despesaStatus">
+              <option value="confirmado">Confirmado</option>
+              <option value="pendente">Pendente</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="btnCancelarDespesa">Cancelar</button>
+            <button type="submit" class="btn btn-danger">Salvar Despesa</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/despesas.js"></script>
+</body>
+</html>
