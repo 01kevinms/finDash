@@ -104,7 +104,7 @@ function setLoadingState(on) {
 function showServerError() {
   const tbody = document.getElementById('lastTransactions');
   if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="empty-row" style="color:var(--red)">
-    ⚠️ Não foi possível conectar ao json-server. Rode: <code>npx json-server --watch db.json --port 3001</code>
+    ⚠️ Erro ao carregar dados. Se estiver usando PHP, verifique se o servidor está rodando.
   </td></tr>`;
   ['kpiSaldo','kpiReceitas','kpiDespesas','kpiTransacoes'].forEach(id => setEl(id, '—'));
 }
