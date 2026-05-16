@@ -1,19 +1,25 @@
 // ============================================================
-// AUTH.JS — Autenticação via db.json (json-server)
+// AUTH.JS — Autenticação via Storage (api.php ou fallback local)
 // ============================================================
 
 const Auth = {
   SESSION_KEY: 'fin_session',
+  USER_KEY:    'fin_user',
 
   isLoggedIn() {
     return sessionStorage.getItem(this.SESSION_KEY) === 'true';
   },
 
   async login(username, password) {
+    // Storage.findUser já tem fallback: tenta API, senão usa local
     const user = await Storage.findUser(username, password);
     if (user) {
       sessionStorage.setItem(this.SESSION_KEY, 'true');
-      sessionStorage.setItem('fin_user', JSON.stringify({ id: user.id, name: user.name, role: user.role }));
+      sessionStorage.setItem(this.USER_KEY, JSON.stringify({
+        id:   user.id,
+        name: user.name,
+        role: user.role,
+      }));
       return true;
     }
     return false;
@@ -21,7 +27,7 @@ const Auth = {
 
   logout() {
     sessionStorage.removeItem(this.SESSION_KEY);
-    sessionStorage.removeItem('fin_user');
+    sessionStorage.removeItem(this.USER_KEY);
     window.location.href = 'login.html';
   },
 
@@ -35,16 +41,20 @@ const Auth = {
 
   currentUser() {
     try {
-      return JSON.parse(sessionStorage.getItem('fin_user')) || { name: 'Admin', role: 'admin' };
-    } catch { return { name: 'Admin', role: 'admin' }; }
+      return JSON.parse(sessionStorage.getItem(this.USER_KEY))
+        || { name: 'Admin', role: 'admin' };
+    } catch {
+      return { name: 'Admin', role: 'admin' };
+    }
   },
 };
 
-// ─── Inicializa página de login ──────────────────────────
+// ─── Inicializa página de login ──────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
   if (!loginForm) return;
 
+  // Já logado → redireciona direto
   if (Auth.isLoggedIn()) {
     window.location.href = 'index.html';
     return;
@@ -52,50 +62,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loginForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const user = document.getElementById('username').value.trim();
-    const pass = document.getElementById('password').value;
-    const errEl = document.getElementById('loginError');
-    const btn = loginForm.querySelector('button[type="submit"]');
 
+    const usernameVal = document.getElementById('username').value.trim();
+    const passwordVal = document.getElementById('password').value;
+    const errEl       = document.getElementById('loginError');
+    const btn         = loginForm.querySelector('button[type="submit"]');
+
+    // Reset estado visual
+    errEl.style.display = 'none';
+    ['username', 'password'].forEach(id =>
+      document.getElementById(id)?.classList.remove('input-error')
+    );
     btn.classList.add('loading');
     btn.disabled = true;
-    errEl.style.display = 'none';
 
     try {
-      const ok = await Auth.login(user, pass);
+      const ok = await Auth.login(usernameVal, passwordVal);
+
       if (ok) {
         btn.classList.remove('loading');
         btn.classList.add('success');
         btn.textContent = 'Entrando…';
         setTimeout(() => { window.location.href = 'index.html'; }, 600);
       } else {
-        throw new Error('Credenciais inválidas');
+        // Credenciais erradas — erro esperado
+        showLoginError(errEl, btn, 'Usuário ou senha inválidos.');
       }
     } catch (err) {
-      btn.classList.remove('loading');
-      btn.disabled = false;
-      errEl.textContent = err.message === 'Credenciais inválidas'
-        ? 'Usuário ou senha inválidos.'
-        : 'Não foi possível conectar.';
-      errEl.style.display = 'block';
-      ['username', 'password'].forEach(id => {
-        document.getElementById(id)?.classList.add('input-error');
-      });
-      setTimeout(() => {
-        errEl.style.display = 'none';
-        ['username', 'password'].forEach(id =>
-          document.getElementById(id)?.classList.remove('input-error')
-        );
-      }, 4000);
+      // Erro inesperado (rede, JSON malformado, etc.)
+      console.error('[Auth] Erro no login:', err);
+      showLoginError(errEl, btn, 'Erro ao conectar. Tente novamente.');
     }
   });
 
-  // Toggle senha
+  // Toggle visibilidade da senha
   document.getElementById('togglePassword')?.addEventListener('click', () => {
-    const inp = document.getElementById('password');
-    const btn = document.getElementById('togglePassword');
-    const isText = inp.type === 'text';
-    inp.type = isText ? 'password' : 'text';
-    btn.textContent = isText ? '👁' : '🙈';
+    const inp  = document.getElementById('password');
+    const btn  = document.getElementById('togglePassword');
+    const show = inp.type === 'password';
+    inp.type   = show ? 'text' : 'password';
+    btn.textContent = show ? '🙈' : '👁';
   });
 });
+
+// ─── Helper interno ──────────────────────────────────────────
+function showLoginError(errEl, btn, msg) {
+  btn.classList.remove('loading');
+  btn.disabled = false;
+
+  errEl.textContent    = msg;
+  errEl.style.display  = 'block';
+
+  ['username', 'password'].forEach(id =>
+    document.getElementById(id)?.classList.add('input-error')
+  );
+
+  setTimeout(() => {
+    errEl.style.display = 'none';
+    ['username', 'password'].forEach(id =>
+      document.getElementById(id)?.classList.remove('input-error')
+    );
+  }, 4000);
+}
